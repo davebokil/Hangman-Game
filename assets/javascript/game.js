@@ -1,17 +1,11 @@
 // ** Variables **
 
 // Words to be used in game, defined by variable wordChoices and arranged in an array
-var wordChoices = ["reggae",
-    "jamaica",
-    "marley",
-    "rasta",
-    "vibration",
-    "love",
-    "beach",
-    "dancehall",
-    "guitar",
-    "dj"
-                  ];
+var wordChoices = ["reggae", "jamaica", "marley",
+                    "rasta", "vibration", "love",
+                    "beach", "dancehall", "guitar", "dj"
+                ];
+
 // Choose a word from the array at random and store in variable 'gameWord'  
 var gameWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
 //Holds letters in word
@@ -20,6 +14,9 @@ var lettersInWord = [];
 var numBlanks = 0;
 //Holds Blanks letters in an array
 var blanks = [];
+//Stores all guesses
+var lettersGuessed = []; 
+
 
 
 // ** Functions **
@@ -59,25 +56,24 @@ function compareLetter(keyPressed) {
 startGame();
 
 // Takes user inputs 
-document.onkeyup = function(event) {
-
-    // Determines which key was pressed
+document.onkeyup = function(event) 
+{
     var userGuess = event.key;
-    // document.getElementById('numGuesses').innerHTML = userGuess;
     // Test
     console.log(userGuess);
-
-
-for (i=0;i<1;i++) {
-      if (lettersInWord.indexOf(userGuess) === -1) {
-        alert("Guess again");
-      }
-      // If it is in the array...
-      else {
-        alert("You got it");
-      }
-
-    }
-
+        for (i=0;i<1;i++) 
+        {
+          if (lettersInWord.indexOf(userGuess) === -1) {
+            lettersGuessed.push(userGuess)
+            console.log(lettersGuessed);
+            document.getElementById('Guesses').innerHTML = lettersGuessed; 
+          }
+          // If it is in the array...
+          else {
+            blanks.splice(0,1);
+            blanks.push(userGuess);
+            console.log(blanks);
+          }
+        }
 }
 
