@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<script type="text/javascript">
+var wordChoices = ["reggae",
+    "jamaica",
+    "marley",
+    "rasta",
+    "vibration",
+    "love",
+    "beach",
+    "dancehall",
+    "guitar",
+    "dj"];
+
+var gameWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
+
+var lettersInWord = [];
+
+gameWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
+lettersInWord = gameWord.split('');
+console.log(gameWord);
+console.log(lettersInWord);
+
+
+for (i=0;i<2;i++) {
+		var userGuess = prompt("Guess a letter");
+		var userGuessLower = userGuess.toLowerCase();
+
+      if (lettersInWord.indexOf(userGuessLower) === -1) {
+        alert("Guess again");
+      }
+      // If it is in the array...
+      else {
+        alert("You got it");
+      }
+
+}
+
+
+
+
+</script>
+</body>
+</html>
+
+var userGuess = prompt("Guess a letter");
