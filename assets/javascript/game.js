@@ -3,7 +3,7 @@
 // Words to be used in game, defined by variable wordChoices and arranged in an array
 var wordChoices = ["reggae", "jamaica", "marley",
                     "rasta", "vibration", "love",
-                    "beach", "dancehall", "guitar", "dj"
+                    "beach", "dancehall", "guitar",
                 ];
 
 // Choose a word from the array at random and store in variable 'gameWord'  
@@ -14,9 +14,8 @@ var lettersInWord = [];
 var numBlanks = 0;
 //Holds Blanks letters in an array
 var blanks = [];
-//Stores all guesses
+//Stores all wrong guesses
 var lettersGuessed = []; 
-
 
 
 // ** Functions **
@@ -24,8 +23,8 @@ var lettersGuessed = [];
 
 // function startGame will choose a word and display it as underscores
 function startGame() {
-    // var audio = new Audio('assets/music/');
-    // audio.play();
+    var audio = new Audio('assets/music/love.mp3');
+    audio.play();
 
     //Chooses word randombly from the wordBank
     gameWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
@@ -42,12 +41,10 @@ function startGame() {
     console.log(lettersInWord);
     console.log(numBlanks);
     console.log(blanks);
-}
 
-// function to compare the user letter input to the game word in play
-function compareLetter(keyPressed) {
 
 }
+
 
 
 // Initiation 
@@ -55,25 +52,37 @@ function compareLetter(keyPressed) {
 // Calls the function to start the game
 startGame();
 
+    
+
 // Takes user inputs 
 document.onkeyup = function(event) 
 {
+    
     var userGuess = event.key;
-    // Test
     console.log(userGuess);
-        for (i=0;i<1;i++) 
+    for (i = 0; i < 1; i++) 
+    {
+        if (lettersInWord.indexOf(userGuess) === -1) 
         {
-          if (lettersInWord.indexOf(userGuess) === -1) {
             lettersGuessed.push(userGuess)
             console.log(lettersGuessed);
-            document.getElementById('Guesses').innerHTML = lettersGuessed; 
-          }
-          // If it is in the array...
-          else {
-            blanks.splice(0,1);
-            blanks.push(userGuess);
-            console.log(blanks);
-          }
+            document.getElementById("Guesses").innerHTML=lettersGuessed;
+        } else 
+        {
+            var n = lettersInWord.indexOf(userGuess)
+            console.log(n)
+            blanks.splice(n, 1, userGuess)
+            console.log(blanks)
+            var x = document.getElementById("CurrentGame");
+            x.innerHTML = blanks.join(" ");
+
         }
+
+    }
 }
 
+
+
+            // document.getElementById('Guesses').innerHTML = lettersGuessed;
+            // var x = document.getElementById("Guesses");
+            // x.innerHTML = 
