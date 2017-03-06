@@ -1,120 +1,123 @@
-// ** Variables **
-// Words to be used in game, defined by variable wordChoices and arranged in an array
-var wordChoices = ["reggae", "jamaica", "marley",
+// ********* Global Variables *********
+// Word Bank
+var wordBank = ["reggae", "jamaica", "marley",
                     "rasta", "vibration", "love",
                     "beach", "dancehall", "guitar",
-                ];
-// Choose a word from the array at random and store in variable 'gameWord'  
-var gameWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
-//This variable will store the individual characters of the word in an array after using the split Method
+                    "singer", "songwriter", "exodus",
+                    "jamming", "rastafari", "ganja"
+                  ];
+// Holds a game word in a string chosen at random from above array
+var selectedWord = "";
+// conver the selected word into an array
 var lettersInWord = [];
-//This will be used to tally up total number of characters in the word and stores as a number
+// Calculate the number of blanks in the word
 var numBlanks = 0;
-//Holds Blanks letters in an array
-var blanks = [];
-//Stores all wrong guesses in an array
-var lettersGuessed = [];
-// Total number of guesses left
+// This variable has two functions: display the blanks, and populate correct guesses
+var PushSplice = [];
+// Holds the user's wrong guesses in an array
+var wrongLetters = [];
+// Updates the win count
+var winCount = 0;
+// Updates the loss count
+var lossCount = 0;
+// Total number of guesses left to play
 var guessesLeft = 10;
-// Win Counter
-var wins = 0;
-// Loss Counter
-var loss = 0;
 
-//***Background music starts on page load***
-var audio = new Audio('assets/music/love.mp3');
-audio.play();
+// ********* FUNCTIONS *********
+function startGame() {
 
-// ** Functions **
-function startGame () 
-{
+  selectedWord = wordBank[Math.floor(Math.random()*wordBank.length)]
+  lettersInWord = selectedWord.split("");
+  numBlanks = lettersInWord.length;
 
 
+  // Reset
+  guessesLeft = 9;
+  wrongLetters = [];
+  PushSplice = [];
 
-    //Call up variable to choose word randombly from the wordBank
-    gameWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
-    //Splits the chosen word into individual letters, holds in an array
-    lettersInWord = gameWord.split('');
-    //Get the number of characters in the game word
-    numBlanks = lettersInWord.length;
+  // Populate Blanks and Succeses with right number of blanks
+  for (var i=0; i<numBlanks; i++){
+    PushSplice.push("_");
+  }
 
-      //Reset
-    var guessesLeft = 10;
-    var lettersGuessed = [];
+  document.getElementById("wordToGuess").innerHTML = PushSplice.join(" ");
+  document.getElementById("numGuesses").innerHTML = guessesLeft;
+  document.getElementById("winCounter").innerHTML = winCount;
+  document.getElementById("lossCounter").innerHTML = lossCount;
 
-    
-    // Tests
-    console.log(gameWord);
-    console.log(lettersInWord);
-    console.log(numBlanks);
-    console.log(blanks);
+  // Testing
+  console.log(selectedWord);
+  console.log(lettersInWord);
+  console.log(numBlanks);
+  console.log(PushSplice);
 
-    //Populate array with underscores based on total number of characters
-    for (var i = 0; i < numBlanks; i++) 
-    {
-        blanks.push('_');
-    }
-    // document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
-    document.getElementById("WinCounter").innerHTML = wins
-    document.getElementById("LossCounter").innerHTML = loss
-    document.getElementById("GuessCounter").innerHTML = guessesLeft
-    document.getElementById("CurrentGame").innerHTML = blanks.join(" ")
 }
 
+function checkLetters(letter) {
+  var isLetterInWord = false;
 
+  for (var i=0; i<numBlanks; i++) {
+    if(selectedWord[i] == letter) {
+      isLetterInWord = true;
+    }
+  }
 
-function compare(letter) 
-{
-    // Correct Guesses
-    for (var j = 0; j < numBlanks; j++) 
-    {
-      console.log(lettersInWord[j]);
-      // Place the correct guess into the array using splice
-      if (lettersInWord[j].charAt(0) === letter) 
-      {
-        blanks.splice(j, 1, letter)
-        console.log(blanks)
-        document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
+  if(isLetterInWord) {
+    for (var i=0; i<numBlanks; i++) {
+      if(selectedWord[i] == letter) {
+        PushSplice[i] = letter;
       }
     }
+  } 
 
-    // Wrong Guesses
-    for (i = 0; i < 1; i++) 
-    {
-        // Store the wrong guesses in another array
-        if (lettersInWord.indexOf(letter) === -1) 
-        {
-          lettersGuessed.push(letter);
-          console.log(lettersGuessed);
-          guessesLeft--;
-          console.log(guessesLeft);
-          document.getElementById("WrongGuesses").innerHTML = lettersGuessed;
-          document.getElementById("GuessCounter").innerHTML = guessesLeft;
-        }  
-    }
+  else {
+    wrongLetters.push(letter);
+    guessesLeft--
+  }
 
-    // Loss Counter. If number of wrong guesses totals 10, +1 loss and reset game
-    if (lettersGuessed.length === 10) 
-    {
-      loss++;
-      startGame()
-    }
-    // Win Counter. If array of correct guesses = original word, +1 wins and reset game
-    if (blanks.toString() == lettersInWord.toString()) 
-    {
-      wins++;
-      startGame()
-    }
+  console.log(PushSplice);
+} 
+
+function roundComplete(){
+
+  document.getElementById("numGuesses").innerHTML = guessesLeft;
+  document.getElementById("wordToGuess").innerHTML = PushSplice.join(" ");
+  document.getElementById("wrongGuesses").innerHTML = wrongLetters.join(" ");
+
+  //Win
+  if (lettersInWord.toString() == PushSplice.toString()){
+    winCount++;
+    document.getElementById("winCounter").innerHTML = winCount;
+    startGame()
+  }
+
+  //Loss
+  else if (guessesLeft == 0) {
+    lossCount++
+    document.getElementById("lossCounter").innerHTML = lossCount;
+    startGame()
+  }
+
 }
 
-// ** Start the Game Function **
-startGame();
+// ********* Background Music Intiate *********
+var audio = new Audio('assets/music/love.mp3');
+audio.play();
+audio.loop = true;
+
+// ********* Game Starts *********
+startGame()
+
+// ********* User Key Entries *********
+document.onkeyup = function(event) {
+  // store user input to a variable and convert to lowercase
+  var letterGuessed = String.fromCharCode(event.keyCode).toLowerCase()
+  // run the comparison function
+  checkLetters(letterGuessed);
+  // run the win/loss function
+  roundComplete();
+}
 
 
-// Function everytime a key is pressed
-document.onkeyup = function(event) 
-{
-  //store key input in a variable
-  var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-  compare(userGuess)
-}     
+
