@@ -30,7 +30,7 @@ function startGame () {
     lettersInWord = gameWord.split('');
     //Get the number of characters in the game word
     numBlanks = lettersInWord.length;
-    // Tests
+
     console.log(gameWord);
     console.log(lettersInWord);
     console.log(numBlanks);
@@ -52,7 +52,7 @@ startGame();
 
 
 
-
+// Tests
 
 
 
@@ -70,7 +70,6 @@ document.onkeyup = function(event)
       {
         blanks.splice(j, 1, userGuess)
         console.log(blanks)
-        document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
         // var x = document.getElementById("CurrentGame");
         //     x.innerHTML = blanks.join(" ");
       }

@@ -6,23 +6,25 @@
     <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="assets/javascript/game.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
 </head>
 
 <body>
-    <h1>'ang Mon!</h1>
-    <h2>(Hangman: Bob Marley Edition)</h2>
-    <br>
-    <p style="color:white">Press any letter to get started</p>
-    <br><br><br>
-    <p>Current Word:<br><span id="CurrentGame"></span></p>
-    <p><span id="CurrentGame"></span></p>
-    <br><br><br>
-    <p>Letters Already Guessed:<br><span id="Guesses"></span></p>
-
+    <div class="container">
+        <h1>'ang Mon!</h1>
+        <h2>(Hangman: Bob Marley Edition)</h2>
+        <br>
+        <p style="color:white">Press any letter to get started</p>
+        <br><br>
+        <p>Word to Guess:&nbsp<span id="CurrentGame"></span></p>
+        <br><br>
+        <p>Wrong Guesses:&nbsp<span id="WrongGuesses"></span></p>
+        <p>Guesses Left:&nbsp<span id="GuessesLeft"></span></p>
+        <br><br><br>
+        <p>Wins:&nbsp<span id="WinCounter"></span></p>
+        <p>Losses:&nbsp<span id="LossCounter"></span></p>
+    </div>
+    <script src="assets/javascript/game.js"></script>
 </body>
 
 </html>
-
-
