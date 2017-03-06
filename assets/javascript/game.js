@@ -14,8 +14,12 @@ var numBlanks = 0;
 var blanks = [];
 //Stores all wrong guesses in an array
 var lettersGuessed = [];
+// Total number of guesses left
+var guessesLeft = 10;
 // Win Counter
 var wins = 0;
+// Loss Counter
+var loss = 0;
 
 //***Background music starts on page load***
 var audio = new Audio('assets/music/love.mp3');
@@ -36,31 +40,26 @@ function startGame () {
     console.log(numBlanks);
     console.log(blanks);
 
-
     //Populate array with underscores based on total number of characters
     for (var i = 0; i < numBlanks; i++) 
     {
         blanks.push('_');
     }
     document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
+    document.getElementById("GuessesLeft").innerHTML = guessesLeft
+    document.getElementById("WinCounter").innerHTML = wins
+    document.getElementById("LossCounter").innerHTML = loss
 }
 
-// ** Process **
+// ** Start the Game Function **
 startGame();
-
-
-
-
-
-
-
 
 
 // Function everytime a key is pressed
 document.onkeyup = function(event) 
 {
   //store key input in a variable
-  var userGuess = event.key;
+  var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
     // Correct Guesses
     for (var j = 0; j < numBlanks; j++) 
     {
@@ -98,9 +97,8 @@ document.onkeyup = function(event)
       }
     }
     // Loss Alert - If the user locks in 13 wrong guesses, an alert occurs.
-    if (lettersGuessed.length === 13) 
+    if (lettersGuessed.length === 10) 
     {
       alert("You Lose")
-
     }
 }     
