@@ -22,8 +22,8 @@ var wins = 0;
 var loss = 0;
 
 //***Background music starts on page load***
-var audio = new Audio('assets/music/love.mp3');
-audio.play();
+// var audio = new Audio('assets/music/love.mp3');
+// audio.play();
 
 // ** Functions **
 function startGame () 
