@@ -26,7 +26,10 @@ var audio = new Audio('assets/music/love.mp3');
 audio.play();
 
 // ** Functions **
-function startGame () {
+function startGame () 
+{
+
+
 
     //Call up variable to choose word randombly from the wordBank
     gameWord = wordChoices[Math.floor(Math.random() * wordChoices.length)];
@@ -34,6 +37,12 @@ function startGame () {
     lettersInWord = gameWord.split('');
     //Get the number of characters in the game word
     numBlanks = lettersInWord.length;
+
+      //Reset
+    var guessesLeft = 10;
+    var lettersGuessed = [];
+
+    
     // Tests
     console.log(gameWord);
     console.log(lettersInWord);
@@ -45,10 +54,57 @@ function startGame () {
     {
         blanks.push('_');
     }
-    document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
-    document.getElementById("GuessesLeft").innerHTML = guessesLeft
+    // document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
     document.getElementById("WinCounter").innerHTML = wins
     document.getElementById("LossCounter").innerHTML = loss
+    document.getElementById("GuessCounter").innerHTML = guessesLeft
+    document.getElementById("CurrentGame").innerHTML = blanks.join(" ")
+}
+
+
+
+function compare(letter) 
+{
+    // Correct Guesses
+    for (var j = 0; j < numBlanks; j++) 
+    {
+      console.log(lettersInWord[j]);
+      // Place the correct guess into the array using splice
+      if (lettersInWord[j].charAt(0) === letter) 
+      {
+        blanks.splice(j, 1, letter)
+        console.log(blanks)
+        document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
+      }
+    }
+
+    // Wrong Guesses
+    for (i = 0; i < 1; i++) 
+    {
+        // Store the wrong guesses in another array
+        if (lettersInWord.indexOf(letter) === -1) 
+        {
+          lettersGuessed.push(letter);
+          console.log(lettersGuessed);
+          guessesLeft--;
+          console.log(guessesLeft);
+          document.getElementById("WrongGuesses").innerHTML = lettersGuessed;
+          document.getElementById("GuessCounter").innerHTML = guessesLeft;
+        }  
+    }
+
+    // Loss Counter. If number of wrong guesses totals 10, +1 loss and reset game
+    if (lettersGuessed.length === 10) 
+    {
+      loss++;
+      startGame()
+    }
+    // Win Counter. If array of correct guesses = original word, +1 wins and reset game
+    if (blanks.toString() == lettersInWord.toString()) 
+    {
+      wins++;
+      startGame()
+    }
 }
 
 // ** Start the Game Function **
@@ -60,45 +116,5 @@ document.onkeyup = function(event)
 {
   //store key input in a variable
   var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-    // Correct Guesses
-    for (var j = 0; j < numBlanks; j++) 
-    {
-      console.log(lettersInWord[j]);
-      // Place the correct guess into the array using splice
-      if (lettersInWord[j].charAt(0) === userGuess) 
-      {
-        blanks.splice(j, 1, userGuess)
-        console.log(blanks)
-        document.getElementById("CurrentGame").innerHTML = blanks.join(" ");
-        // var x = document.getElementById("CurrentGame");
-        //     x.innerHTML = blanks.join(" ");
-      }
-    }
-    // Wrong Guesses
-    for (i = 0; i < 1; i++) 
-    {
-        // Store the wrong guesses in another array
-        if (lettersInWord.indexOf(userGuess) === -1) 
-        {
-          lettersGuessed.push(userGuess)
-          console.log(lettersGuessed);
-          document.getElementById("WrongGuesses").innerHTML=lettersGuessed;
-        }  
-    }
-    // Win Counter. Craig, please note I had trouble making this work.
-    // I learned that you cannot compare two arrays
-    // However two strings cant be compared. I just couldnt put it together. 
-    for (var j = 0; j < numBlanks; j++) 
-    {
-      if (blanks[j].charAt(0) === gameWord) 
-      {
-        alert('You Win')
-        console.log(j)
-      }
-    }
-    // Loss Alert - If the user locks in 13 wrong guesses, an alert occurs.
-    if (lettersGuessed.length === 10) 
-    {
-      alert("You Lose")
-    }
+  compare(userGuess)
 }     
