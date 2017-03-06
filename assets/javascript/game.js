@@ -26,27 +26,31 @@ var guessesLeft = 10;
 // ********* FUNCTIONS *********
 function startGame() {
 
+  // Choose a word from the word bank at random
   selectedWord = wordBank[Math.floor(Math.random()*wordBank.length)]
+  // Split the word into an array
   lettersInWord = selectedWord.split("");
+  // calculate the length of the array
   numBlanks = lettersInWord.length;
 
 
-  // Reset
+  // Reset parameters each time a new round is started
   guessesLeft = 9;
   wrongLetters = [];
   PushSplice = [];
 
-  // Populate Blanks and Succeses with right number of blanks
+  // For loop that pushes blanks to the array
   for (var i=0; i<numBlanks; i++){
     PushSplice.push("_");
   }
 
+  // update the html with game info
   document.getElementById("wordToGuess").innerHTML = PushSplice.join(" ");
   document.getElementById("numGuesses").innerHTML = guessesLeft;
   document.getElementById("winCounter").innerHTML = winCount;
   document.getElementById("lossCounter").innerHTML = lossCount;
 
-  // Testing
+  // Tests
   console.log(selectedWord);
   console.log(lettersInWord);
   console.log(numBlanks);
@@ -54,15 +58,19 @@ function startGame() {
 
 }
 
+// This function will hold the checks for user key input
 function checkLetters(letter) {
   var isLetterInWord = false;
 
+
+  // for loop to check if key entry is in game word
   for (var i=0; i<numBlanks; i++) {
     if(selectedWord[i] == letter) {
       isLetterInWord = true;
     }
   }
 
+  // if letter is in word, run through the blanks and push the letter to the correct position
   if(isLetterInWord) {
     for (var i=0; i<numBlanks; i++) {
       if(selectedWord[i] == letter) {
@@ -71,6 +79,7 @@ function checkLetters(letter) {
     }
   } 
 
+  // if not, update the guess counter and push the letter to the wrong letters array
   else {
     wrongLetters.push(letter);
     guessesLeft--
@@ -79,21 +88,29 @@ function checkLetters(letter) {
   console.log(PushSplice);
 } 
 
+// function that holds information on what to do when a round is completed
 function roundComplete(){
 
+  // update the html based on the round
   document.getElementById("numGuesses").innerHTML = guessesLeft;
   document.getElementById("wordToGuess").innerHTML = PushSplice.join(" ");
   document.getElementById("wrongGuesses").innerHTML = wrongLetters.join(" ");
 
-  //Win
+  // A win will trigger a victory audio snippet, update the counter, and restart the next round
   if (lettersInWord.toString() == PushSplice.toString()){
+    var audio = new Audio('assets/music/airhorn.mp3');
+    audio.play();
+    audio.volume = 0.5;
     winCount++;
     document.getElementById("winCounter").innerHTML = winCount;
     startGame()
   }
 
-  //Loss
+  // A loss triggers a sound effect, updates the loss counter, and restars the function startgame
   else if (guessesLeft == 0) {
+    var audio = new Audio('assets/music/rewind.mp3');
+    audio.play();
+    audio.volume = 0.7;
     lossCount++
     document.getElementById("lossCounter").innerHTML = lossCount;
     startGame()
